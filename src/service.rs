@@ -10,7 +10,7 @@ use jam_pvm_common::{
 };
 use jam_types::{
     AccumulateItem, CodeHash, Hash, RefineContext, ServiceId, Slot, TransferRecord, WorkOutput,
-    WorkPackageHash, WorkPayload,
+    WorkPackageHash, WorkPayload
 };
 
 // Make STORAGE_KEY public so the authorizer can use it
