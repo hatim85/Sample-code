@@ -70,6 +70,15 @@ impl Service for MyJamService {
             }
         }
 
+        // --- THIS IS THE FIX ---
+        // Use println! for debugging, as it's less likely to be buffered during a panic.
+        println!(
+            "DEBUG: State before saving: counter = {}, nonces = {:?}",
+            state.counter,
+            state.nonces
+        );
+        // --- END OF FIX ---
+
         if set_storage(STORAGE_KEY, &state.encode()).is_err() {
             info!(
                 target = "service::accumulate",

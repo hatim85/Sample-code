@@ -130,7 +130,20 @@ fn main() {
     let service_id: ServiceId = 1;
     let payload = WorkPayload::from(b"Hello, JAM!".to_vec());
     let package_hash: Hash = [1; 32]; // Dummy hash
-    let context_hex = "00"; // Minimal RefineContext (can be more complex)
+
+    // --- FIX START ---
+    // Create a default RefineContext and encode it properly
+    let default_refine_context = RefineContext {
+        state_root: [0; 32].into(),
+        anchor: Default::default(),
+        beefy_root: [0; 32].into(),
+        lookup_anchor: Default::default(),
+        lookup_anchor_slot: 0,
+        prerequisites: VecSet::default(),
+    };
+    let context_hex = hex::encode(default_refine_context.encode());
+    // --- FIX END ---
+
     let auth_code_hash: Hash = [2; 32]; // Dummy hash
 
     println!("service_id_hex: \"{}\"", hex::encode(jam_codec::Encode::encode(&service_id)));
