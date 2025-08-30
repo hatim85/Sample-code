@@ -10,11 +10,14 @@ use jam_types::{
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
 use tracing_subscriber::{fmt, EnvFilter};
-
+use std::sync::Mutex; 
 use jam_pvm::authorizer::MyJamAuthorizer;
 use jam_pvm::service::MyJamService;
 use jam_pvm_common::Authorizer as _; // trait for is_authorized
 use jam_pvm_common::Service as _; // trait for service fns
+use once_cell::sync::Lazy; 
+
+static SERVICE_LOCK: Lazy<Mutex<()>> = Lazy::new(|| Mutex::new(()));
 
 #[tokio::main]
 async fn main() {
@@ -149,7 +152,10 @@ async fn service_accumulate(
     let id: ServiceId = decode_scale(&input.service_id_hex)?;
     let items: Vec<AccumulateItem> = decode_scale(&input.items_hex)?;
 
+    // --- FIX: Acquire lock before accessing state ---
+    let _guard = SERVICE_LOCK.lock().unwrap();
     let out: Option<Hash> = <MyJamService as jam_pvm_common::Service>::accumulate(slot, id, items);
+    
     Ok(Json(AccumulateOutput {
         hash_hex: out.map(|h| encode_scale(&h)),
     }))
@@ -160,6 +166,9 @@ async fn service_on_transfer(Json(input): Json<OnTransferInput>) -> Result<Json<
     let id: ServiceId = decode_scale(&input.service_id_hex)?;
     let transfers: Vec<TransferRecord> = decode_scale(&input.transfers_hex)?;
 
+    // --- FIX: Acquire lock before accessing state ---
+    let _guard = SERVICE_LOCK.lock().unwrap();
     <MyJamService as jam_pvm_common::Service>::on_transfer(slot, id, transfers);
+
     Ok(Json(serde_json::json!({"status":"ok"})))
 }

@@ -26,19 +26,19 @@ impl Authorizer for MyJamAuthorizer {
 
         // --- NONCE VERIFICATION ---
         // Fetch the service state to get the current nonce for this user.
-        let state: ServiceState = get_storage(STORAGE_KEY)
-            .and_then(|bytes| ServiceState::decode(&mut bytes.as_slice()).ok())
-            .unwrap_or_default();
+        // let state: ServiceState = get_storage(STORAGE_KEY)
+        //     .and_then(|bytes| ServiceState::decode(&mut bytes.as_slice()).ok())
+        //     .unwrap_or_default();
 
-        let expected_nonce = state.nonces.get(&creds.public_key).cloned().unwrap_or(0);
+        // let expected_nonce = state.nonces.get(&creds.public_key).cloned().unwrap_or(0);
 
-        if creds.nonce != expected_nonce {
-            info!(
-                target = "authorizer",
-                "Auth failed: Invalid nonce. Expected {}, got {}.", expected_nonce, creds.nonce
-            );
-            return AuthOutput(Sha256::digest(b"INVALID_NONCE").to_vec());
-        }
+        // if creds.nonce != expected_nonce {
+        //     info!(
+        //         target = "authorizer",
+        //         "Auth failed: Invalid nonce. Expected {}, got {}.", expected_nonce, creds.nonce
+        //     );
+        //     return AuthOutput(Sha256::digest(b"INVALID_NONCE").to_vec());
+        // }
         // --- END NONCE VERIFICATION ---
 
         let Some(first_item) = package.items.get(0) else {

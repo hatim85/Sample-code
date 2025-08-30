@@ -679,6 +679,7 @@ dependencies = [
  "jam-pvm-common",
  "jam-types",
  "log",
+ "once_cell",
  "parity-scale-codec",
  "polkavm-derive",
  "rand",

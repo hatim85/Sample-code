@@ -72,7 +72,12 @@ impl Service for MyJamService {
 
         // --- THIS IS THE FIX ---
         // Use println! for debugging, as it's less likely to be buffered during a panic.
-        println!(
+        // println!(
+        //     "DEBUG: State before saving: counter = {}",
+        //     state.counter,
+        // );
+
+         println!(
             "DEBUG: State before saving: counter = {}, nonces = {:?}",
             state.counter,
             state.nonces
@@ -143,16 +148,16 @@ impl Service for MyJamService {
             }
         }
 
-        if set_storage(STORAGE_KEY, &state.encode()).is_err() {
-            info!(
-                target = "service::on_transfer",
-                "Error: Failed to set storage."
-            );
-        } else {
-            info!(
-                target = "service::on_transfer",
-                "Successfully wrote new state: counter = {}.", state.counter
-            );
-        }
+        // if set_storage(STORAGE_KEY, &state.encode()).is_err() {
+        //     info!(
+        //         target = "service::on_transfer",
+        //         "Error: Failed to set storage."
+        //     );
+        // } else {
+        //     info!(
+        //         target = "service::on_transfer",
+        //         "Successfully wrote new state: counter = {}.", state.counter
+        //     );
+        // }
     }
 }
