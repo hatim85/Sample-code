@@ -140,8 +140,11 @@ async fn service_refine(Json(input): Json<RefineInput>) -> Result<Json<RefineOut
         context,
         auth_code_hash,
     );
+    // Ok(Json(RefineOutput {
+    //     work_output_hex: encode_scale(&out),
+    // }))
     Ok(Json(RefineOutput {
-        work_output_hex: encode_scale(&out),
+        work_output_hex: hex::encode(&out.0),
     }))
 }
 

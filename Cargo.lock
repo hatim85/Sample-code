@@ -678,6 +678,7 @@ dependencies = [
  "jam-codec",
  "jam-pvm-common",
  "jam-types",
+ "lazy_static",
  "log",
  "once_cell",
  "parity-scale-codec",

@@ -103,17 +103,3 @@ Expected Output: {"status":"ok"}
 
 Check Server Logs: You should see messages indicating that a command was decoded and that the new state was written with an updated counter.
 
-
-
-
-
-
-
-
-
-
-
-
-
-Canvas
-
